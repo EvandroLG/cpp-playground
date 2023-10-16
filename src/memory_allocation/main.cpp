@@ -1,6 +1,5 @@
 #include <iostream>
 #include <memory>
-#include <mutex>
 
 struct Resource
 {

@@ -17,5 +17,10 @@ int main()
   std::cout << unPtr2 << std::endl;
   std::cout << *unPtr2 << std::endl;
 
+  std::shared_ptr<int> shPtr1 = std::make_shared<int>(10);
+  std::shared_ptr<int> shPtr2 = shPtr1;
+
+  std::cout << "Shared count: " << shPtr1.use_count() << std::endl;
+
   std::cin.get();
 }

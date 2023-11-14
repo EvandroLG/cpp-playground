@@ -1,19 +1,50 @@
 #include <SDL2/SDL.h>
+#include <iostream>
+
+const int WINDOW_WIDTH = 640;
+const int WINDOW_HEIGHT = 480;
 
 int main()
 {
   SDL_Window *window = nullptr;
   SDL_Renderer *renderer = nullptr;
 
-  SDL_Init(SDL_INIT_EVERYTHING);
-  SDL_CreateWindowAndRenderer(640, 480, 0, &window, &renderer);
+  if (SDL_Init(SDL_INIT_EVERYTHING)) {
+    std::cerr << "SDL initialization failed: " << SDL_GetError() << std::endl;
+    return 1;
+  }
+
+  window =
+    SDL_CreateWindow("SDL Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+
+  if (!window) {
+    std::cerr << "Window creation failed: " << SDL_GetError() << std::endl;
+    SDL_Quit();
+    return 1;
+  }
+
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+  if (!renderer) {
+    std::cerr << "Renderer creation failed: " << SDL_GetError() << std::endl;
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+    return 1;
+  }
 
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
 
   SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-  SDL_RenderDrawPoint(renderer, 640 / 2, 480 / 2);
+  SDL_RenderDrawPoint(renderer, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 
   SDL_RenderPresent(renderer);
   SDL_Delay(10000);
+
+  // Cleanup
+  SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(window);
+  SDL_Quit();
+
+  return 0;
 }

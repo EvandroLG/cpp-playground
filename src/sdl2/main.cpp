@@ -44,6 +44,29 @@ int main()
     SDL_RenderClear(renderer);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_Rect rect;
+    rect.w = 100;
+    rect.h = 100;
+    rect.y = 0;
+    rect.x = 0;
+    SDL_RenderDrawRect(renderer, &rect);
+
+    SDL_Rect rect2;
+    rect2.w = 100;
+    rect2.h = 100;
+    rect2.y = 50;
+    rect2.x = 50;
+
+    SDL_Rect intersection;
+    SDL_IntersectRect(&rect, &rect2, &intersection);
+
+    SDL_RenderDrawRect(renderer, &rect);
+    SDL_RenderDrawRect(renderer, &rect2);
+
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderFillRect(renderer, &intersection);
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderDrawPoint(renderer, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 
     SDL_RenderPresent(renderer);
